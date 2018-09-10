@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myApp',
+    'geoposition'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,5 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyBz8pNaXo0A-z_7BSD-S_KZ7EafjbvdQsY'
