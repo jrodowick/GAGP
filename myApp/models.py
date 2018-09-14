@@ -1,6 +1,5 @@
 from django.db import models
-from geoposition.fields import GeopositionField
-
+# import requests
 
 # Create your models here.
 
@@ -9,4 +8,14 @@ class Location(models.Model):
     address = models.CharField(max_length = 50)
     city = models.CharField(max_length = 25)
     zip = models.IntegerField()
-    position = GeopositionField()
+
+    # def __str__(self):
+    #     return self.address
+
+    def asDict(self):
+        return {
+            'name': self.name,
+            'address': self.address,
+            'city': self.city,
+            'zip': self.zip,
+        }

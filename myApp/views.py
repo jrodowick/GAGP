@@ -3,11 +3,17 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from .forms import *
 from .models import *
-
+from django.core import serializers
+import json
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html')
+
+def locations(request):
+    locations = Location.objects.all()
+    print(locations)
+    return render(request, 'locations.html', {'locations':locations})
 
 def register(request):
     if(request.method == 'POST'):
