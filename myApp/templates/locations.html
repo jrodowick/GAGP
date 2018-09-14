@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+<!-- <script src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBz8pNaXo0A-z_7BSD-S_KZ7EafjbvdQsY&callback=initMap">
+</script>
+<script src="{% static 'js/maps.js' %}"></script>
+<!-- <script src="{% static 'js/vue.js' %}"></script> -->
+
+{% endblock %}
+
+{% block content%}
+{% csrf_token %}
+
+
+<div class="container-fluid" >
+  <div class="row">
+    <div class="col" id="map">
+    </div>
+    <div class="col" id="locations">
+      {% for loc in locations %}
+      <p>
+        {{ loc.name }},
+        <span id="address">{{ loc.address }}</span>,
+        {{ loc.city }},
+        {{ loc.zip }}<br>
+        <!-- <span><a href="#">Create Event here.</a>  <a href="#">Get Directions here.</a></span> -->
+      </p>
+      {% endfor %}
+
+    </div>
+  </div>
+
+<!-- container -->
+</div>
+
+{% endblock %}
