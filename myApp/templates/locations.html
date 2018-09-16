@@ -16,21 +16,36 @@
 
 
 <div class="container-fluid" >
+  <h2 class="text-center" style="padding-bottom:2%;">Find a location from the map or list below!</h2>
+
   <div class="row">
+
+
     <div class="col" id="map">
     </div>
+
+
     <div class="col" id="locations">
       {% for loc in locations %}
-      <p>
-        {{ loc.name }},
-        <span id="address">{{ loc.address }}</span>,
-        {{ loc.city }},
-        {{ loc.zip }}<br>
-        <!-- <span><a href="#">Create Event here.</a>  <a href="#">Get Directions here.</a></span> -->
-      </p>
+      <div class="panel panel-default">
+        <div class="panel-heading">{{ loc.name }}</div>
+        <div class="panel-body">
+          <p id="locInfo">
+            <span id="address">{{ loc.address }}</span>,
+            {{ loc.city }},
+            {{ loc.zip }}<br>
+            <!-- <span><a href="#">Create Event here.</a>  <a href="#">Get Directions here.</a></span> -->
+          </p>
+        <!-- panel body -->
+        </div>
+
+      <!-- panel -->
+      </div>
       {% endfor %}
 
+    <!-- locations -->
     </div>
+  <!-- row   -->
   </div>
 
 <!-- container -->
