@@ -1,7 +1,9 @@
 from django import forms
-from django.forms import Form
+from django.forms import Form, ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+from .models import *
 
 class RegistrationForm(UserCreationForm):
     username = forms.CharField(
@@ -42,4 +44,27 @@ class RegistrationForm(UserCreationForm):
             self.cleaned_data['password1']
         )
 
+class EventForm(forms.Form):
+    event_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+        'class':'form-control',
+        'type':'text',
+        'placeholder':'Give your activity a title!'
+        })
+    )
+    event_location = forms.ModelChoiceField(
+        queryset = Location.objects.all(),
+        empty_label = 'Please choose location',
+        to_field_name = 'name',
+    )
     
+    # event_location = forms.ChoiceField(
+    #     required=True,
+    #     choices = ['1','2','3'],
+    #     label = 'Location'
+    # )
+
+    # def __init__(self, *args, **kwargs):
+    #     super(EventForm, self).__init__(*args, **kwargs)
+    #     self.fields['event_location'].choices = [(x[1]) for x in Location.objects.all().values_list()]
