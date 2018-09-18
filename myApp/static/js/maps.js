@@ -33,7 +33,7 @@ google.maps.event.addDomListener(window, 'load', initMap);
 function drop(markerArray, parkNames) {
   for (var i =0; i < markerArray.length; i++) {
     contentString = '<h4>' + parkNames[i].innerHTML + '</h4>' +
-                    '<a href="#">Create Event here.</a>';
+                    '<a href="/events">Create Event here.</a>';
     var infoWindow = new google.maps.InfoWindow({
       content: contentString,
       maxWidth:400
