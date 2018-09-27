@@ -2,7 +2,8 @@ from django import forms
 from django.forms import Form, ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+import datetime
+from django.forms.widgets import SelectDateWidget
 from .models import *
 
 class RegistrationForm(UserCreationForm):
@@ -57,8 +58,27 @@ class EventForm(forms.Form):
         queryset = Location.objects.all(),
         empty_label = 'Please choose location',
         to_field_name = 'name',
+        widget = forms.Select(attrs={
+            'class':'form-signin'
+        })
     )
-    
+    event_date = forms.DateField(
+        widget = SelectDateWidget(
+            empty_label = ('Choose Year','Choose Month','Chose Day'),
+        ),
+
+    )
+    event_activity = forms.ChoiceField(
+        choices = EVENT_CHOICES,
+        widget = forms.Select(attrs={
+            'class':'form-signin',
+            'placeholder':'Choose a sport'
+        })
+    )
+
+
+
+
     # event_location = forms.ChoiceField(
     #     required=True,
     #     choices = ['1','2','3'],
