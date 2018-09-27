@@ -5,10 +5,8 @@
 
 {% block content %}
 
-
-
-
 <div class="container">
+  {% if user.is_authenticated %}
       <div class="row">
         <div class="col-md-4">
           <h2>Find a location</h2>
@@ -26,33 +24,36 @@
           <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
         </div>
       </div>
+
+      <h3 style="color:red;">Welcome {{ user.username }}</h3>
+      <p><a class="btn btn-secondary" href="/logout" role="button">Log out</a></p>
+  {% endif %}
 </div>
 
 <!-- Sidebar -->
-<div class="sidenav">
-  {% if not user.is_authenticated %}
-
-      <form action="/login/" method="post" class="form-signin">
+{% if not user.is_authenticated %}
+<div class="form-signin" style="border:solid;">
+      <form action="/login/" method="post">
         {% csrf_token %}
         <input type="username" name="username" autofocus class="form-control" placeholder="Username" required id="id_username" /><br>
-        <input type="password" name="password" required class="form-control" placeholder="Password" required id="id_password" /><br>
-        <p><a href="/register">Dont have an account?<br> Register here!</a></p>
+        <input type="password" name="password" required class="form-control" placeholder="Password" required id="id_password" />
+        <p style="text-align:center;"><a href="/register">Dont have an account?<br> Register here!</a></p>
 
         <button class="btn btn-lg btn-primary btn-block">Login</button>
       </form>
-  {% endif %}
-  {% if user.is_authenticated %}
-    <h3 style="color:red;">Welcome {{ user.username }}</h3>
-    <p><a class="btn btn-secondary" href="/logout" role="button">Log out</a></p>
-  {% endif %}
+      <br><p style="text-align:center;"><strong> --OR-- </strong></p>
+      <a class="btn btn-lg btn-primary btn-block"href="{% url 'social:begin' 'google-oauth2' %}" style="color:white;">Login with <img src="{% static 'images/google-signin.png' %}" style="width:20%;height:20%;"></a>
+
+
 </div>
+{% endif %}
+
+
+
+{% endblock %}
 <!-- End Sidebar -->
 
 
 {% block scripts %}
 <script src="{% static 'js/vue.js' %}"></script>
-{% endblock %}
-
-
-
 {% endblock %}
