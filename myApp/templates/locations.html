@@ -28,9 +28,9 @@
 
     <div class="col" id="locations">
       {% for loc in locations %}
-      <div class="panel panel-default">
-        <div class="panel-heading">{{ loc.name }}</div>
-        <div class="panel-body">
+      <div class="card">
+        <div class="card-header">{{ loc.name }}</div>
+        <div class="card-body">
           <p id="locInfo">
             <span id="address">{{ loc.address }}</span>,
             {{ loc.city }},

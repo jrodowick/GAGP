@@ -42,7 +42,7 @@ function start_map(events) {
         var locDiv = document.getElementById('locations');
         var locations = locDiv.getElementsByTagName('span');
 
-        var parkNames = document.getElementsByClassName('panel-heading');
+        var parkNames = document.getElementsByClassName('card-header');
 
 
         drop(locations, parkNames, events)
@@ -57,35 +57,63 @@ function drop(markerArray, parkNames, events) {
     {
       if(events[e]['location']['name'] == parkNames[i].innerHTML)
       {
-        event_list += 'Event title: ' + events[e]['name'] + ' ' +
-                      'Type of activity: ' + events[e]['activity'] + '<br>'
+        event_list +=  '<div class=container">' +
+                         '<button type="button" class="btn btn-primary" data-toggle="collapse" data-target=#' + events[e]['name'] + '>' +
+                              events[e]['name'] +
+                         '</button>' +
+                          '<div id=' + events[e]['name'] + ' class="collapse">' +
+                            '<div class="container" style="border:dotted;">' +
+                              '<br><p><strong>' + 'Sport: </strong>' + events[e]['activity'] + '</p>' +
+                              '<p><strong>' + 'Event on: </strong>' + events[e]['date_of_event'] + '</p>' +
+                              '<a href="#">Join this event.</a>' +
+                            '</div>' +
+                          '</div>' +
+                        '</div>' +'<br>'
+
       }
     }
     contentString = '<h3>' + parkNames[i].innerHTML + '</h3>' +
-                    '<h4>Events at this location:<h4>' +
-                    '<h5>' + event_list + '</h5>' +
+                    '<h5> Events at this location: </h5>' +
+                      event_list +
                     '<a href="/events">Create Event here.</a>';
     var infoWindow = new google.maps.InfoWindow({
       content: contentString,
       maxWidth:500
     })
+
     codeAddress(markerArray[i].innerHTML, infoWindow, i*200);
   }
 }
 
 function codeAddress(address, infoWindow, timeout) {
+    markers = [];
     geocoder.geocode( {'address':address}, function(results, status) {
         setTimeout(function() {
           if (status == 'OK') {
             var marker = new google.maps.Marker({
                 map: map,
                 animation: google.maps.Animation.DROP,
-                position: results[0].geometry.location
+                position: results[0].geometry.location,
+                infowindow: infoWindow
             });
-            marker.addListener('click', function() {
+            markers.push(marker)
+            google.maps.event.addListener(marker, 'click', function() {
+              closeMarkers(map,markers);
               infoWindow.open(map, marker);
             })
+
+
+
+            // marker.addListener('click', function() {
+            //   infoWindow.open(map, marker);
+            // })
           }
         }, timeout)
     })
+}
+
+function closeMarkers(map,markers) {
+  markers.forEach(function(marker) {
+    marker.infowindow.close(map,marker);
+  })
 }
