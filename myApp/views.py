@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from .forms import *
@@ -11,21 +11,58 @@ def index(request):
     return render(request, 'index.html')
 
 def locations(request):
-    locations = Location.objects.all()
-    return render(request, 'locations.html', {'locations':locations})
+    if(request.method == 'GET'):
+        locations = Location.objects.all()
+        return render(request, 'locations.html', {'locations':locations})
+
+def local_event(request):
+    if(request.method == 'POST'):
+        events = Event.objects.all()
+        results = []
+        dict = {}
+
+        for row in events:
+            dict = row.asDict()
+            dict['location'] = dict['location'].asDict()
+            results.append(dict)
+
+        response = json.dumps(results, default = str)
+        return HttpResponse(response, content_type = 'application/json')
+
+# def test_view(request):
+#     if(request.method == 'GET'):
+#         return render(request, 'test.html')
+#
+#
+#     if(request.method == 'POST'):
+#         events = Event.objects.all()
+#         results = []
+#         dict = {}
+#
+#         for row in events:
+#             dict = row.asDict()
+#             dict['location'] = dict['location'].asDict()
+#             results.append(dict)
+#
+#         response = json.dumps(results, default = str)
+#         return HttpResponse(response, content_type = 'application/json')
 
 def events(request):
+    events = Event.objects.all()
     if(request.method == 'POST'):
         form = EventForm(request.POST)
         if(form.is_valid()):
             mod_entry = Event(
                 name = form.cleaned_data['event_name'],
-                event_location = form.cleaned_data['event_location']
+                location = form.cleaned_data['event_location'],
+                date_of_event = form.cleaned_data['event_date'],
+                activity = form.cleaned_data['event_activity'],
             )
             mod_entry.save()
+
     else:
         form = EventForm()
-    return render(request, 'events.html', {'form':form})
+    return render(request, 'events.html', {'form':form,'events':events})
 
 def register(request):
     if(request.method == 'POST'):
