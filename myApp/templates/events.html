@@ -1,19 +1,52 @@
 {% extends "base.html" %}
+{% load i18n %}
+
 {% load static %}
+
+{% block title %}Events{% endblock %}
 
 {% block content %}
 
-<div class="container">
-  <form action="/events/" method="post" class="form-signin">
-    {% csrf_token %}
+<div class="row">
+  <div class="col" style="float:left;">
+    <form action="/events/" method="post" class="form-signin">
+      {% csrf_token %}
 
 
-    {{ form.event_name }}<br>
-    {{ form.event_location }}<br>
+      {{ form.event_name }}<br>
+      {{ form.event_location }}<br><br>
+      {{ form.event_activity }}<br><br>
+      {{ form.event_date }}<br><br>
 
-    <button class="btn btn-lg btn-primary btn-block">Submit</button>
-  </form>
+      <button class="btn btn-lg btn-primary btn-block">Submit</button>
+    </form>
+  </div>
+
+  <div class="col" id="eventDiv">
+
+
+    <div class="col" id="locations">
+      {% for e in events %}
+      <div class="panel panel-default">
+        <div class="panel-heading">{{ e.name }}</div>
+        <div class="panel-body">
+            <strong>Location:</strong> {{ e.location }},
+            <strong>Date Created:</strong> {{ e.date_created }},
+            <strong>Type of activiy:</strong> {{ e.activity }},
+            <strong>Date of event:</strong> {{ e.date_of_event }}
+          </p>
+        <!-- panel body -->
+        </div>
+
+      <!-- panel -->
+      </div>
+      {% endfor %}
+
+    <!-- locations/col -->
+
 </div>
+{% endblock %}
 
+{% block scripts %}
 
 {% endblock %}

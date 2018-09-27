@@ -11,6 +11,14 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/myApp.css' %}">
   {% block styles %}{% endblock %}
   <title>{% block title %}{% endblock %}</title>
+
+
+
+  <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBz8pNaXo0A-z_7BSD-S_KZ7EafjbvdQsY&callback=initMap">
+  </script>
   <style>
   #map {
     height: 600px;
@@ -18,10 +26,7 @@
     margin-left: 5%;
   }
   </style>
-  {% block scripts %}
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
-  {% endblock %}
+
 </head>
 <body>
 
@@ -39,6 +44,7 @@
 
 
 
+  {% block scripts %}{% endblock %}
 
 
 
