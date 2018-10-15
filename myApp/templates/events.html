@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load i18n %}
 
 {% load static %}
 
@@ -7,46 +6,80 @@
 
 {% block content %}
 
-<div class="row">
-  <div class="col" style="float:left;">
-    <form action="/events/" method="post" class="form-signin">
+<div class="container">
+    <form action="/events/" method="post" class="form-signin" id="formfield">
       {% csrf_token %}
 
+      <h4>Title of event</h4>
+      {{ form.name }}<br>
 
-      {{ form.event_name }}<br>
-      {{ form.event_location }}<br><br>
-      {{ form.event_activity }}<br><br>
-      {{ form.event_date }}<br><br>
+      <h4>Location</h4>
+      {{ form.location }}<br>
 
-      <button class="btn btn-lg btn-primary btn-block">Submit</button>
+      <h4>Activity</h4>
+      {{ form.activity }}<br>
+
+      <h4>Date of event</h4>
+      {{ form.date_of_event }}<br>
+
+      <h4>Time of event</h4>
+      {{ form.time_of_event }}<br>
+
+
+
+
+      <!-- {{ form.as_p}} -->
+      <input id="submitBtn" type="button" value="Submit" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" />
+
     </form>
-  </div>
 
-  <div class="col" id="eventDiv">
-
-
-    <div class="col" id="locations">
-      {% for e in events %}
-      <div class="panel panel-default">
-        <div class="panel-heading">{{ e.name }}</div>
-        <div class="panel-body">
-            <strong>Location:</strong> {{ e.location }},
-            <strong>Date Created:</strong> {{ e.date_created }},
-            <strong>Type of activiy:</strong> {{ e.activity }},
-            <strong>Date of event:</strong> {{ e.date_of_event }}
-          </p>
-        <!-- panel body -->
-        </div>
-
-      <!-- panel -->
-      </div>
-      {% endfor %}
-
-    <!-- locations/col -->
 
 </div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">New Event Information</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body" id="modal-body">
+          Modal body..
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary mr-auto" id="regSubmit">Create Event</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
 {% endblock %}
 
-{% block scripts %}
 
+{% block scripts %}
+<script>
+// $('#submitBtn').click(function() {
+//      /* when the button in the form, display the entered values in the modal */
+// });
+
+$("#regSubmit").click(function(){
+     /* when the submit button in the modal is clicked, submit the form */
+     var form = document.getElementById("formfield");
+     if(!form.checkValidity()) {
+      alert("Form is not valid")
+    }
+    else {
+      $('#formfield').submit();
+    }
+});
+</script>
 {% endblock %}

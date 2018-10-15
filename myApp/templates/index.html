@@ -5,22 +5,23 @@
 
 {% block content %}
 
-<div class="container">
+<!-- <div class="container">
   {% if user.is_authenticated %}
       <div class="row">
         <div class="col-md-4">
           <h2>Find a location</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p>Use the Google Maps interface and find a location you want to create an event at!<br>
+          If a location you want isn't on the map, just submit a new one.</p>
           <p><a class="btn btn-secondary" href="/locations" role="button">View Locations &raquo;</a></p>
         </div>
         <div class="col-md-4">
           <h2>Create an event</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          <p>Once you now where you want to go, create an event.  Let other know what you're trying to do by giving you event a title and choose what you want to actaully play!</p>
+          <p><a class="btn btn-secondary" href="/events" role="button">Create Event &raquo;</a></p>
        </div>
         <div class="col-md-4">
           <h2>See who joins in</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>This app is about getting active but also about meeting new people.  Find the people going to you're event and start making friends.</p>
           <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
         </div>
       </div>
@@ -28,10 +29,10 @@
       <h3 style="color:red;">Welcome {{ user.username }}</h3>
       <p><a class="btn btn-secondary" href="/logout" role="button">Log out</a></p>
   {% endif %}
-</div>
+</div> -->
 
 <!-- Sidebar -->
-{% if not user.is_authenticated %}
+<!-- {% if not user.is_authenticated %}
 <div class="form-signin" style="border:solid;">
       <form action="/login/" method="post">
         {% csrf_token %}
@@ -41,12 +42,106 @@
 
         <button class="btn btn-lg btn-primary btn-block">Login</button>
       </form>
-      <br><p style="text-align:center;"><strong> --OR-- </strong></p>
+      <br><p style="text-align:center;"><strong> OR</strong></p>
       <a class="btn btn-lg btn-primary btn-block"href="{% url 'social:begin' 'google-oauth2' %}" style="color:white;">Login with <img src="{% static 'images/google-signin.png' %}" style="width:20%;height:20%;"></a>
 
 
 </div>
-{% endif %}
+{% endif %} -->
+
+<div class="container">
+
+      <!-- Jumbotron Header -->
+      <header class="jumbotron my-4">
+        <h1 class="display-3">Get Active, Go Play!</h1>
+        <p class="lead">This is a website to connect people looking to meet up and play sports.</p>
+        <a href="/about" class="btn btn-primary btn-lg">Learn more &raquo;</a>
+      </header>
+
+      <!-- Page Features -->
+      {% if user.is_authenticated %}
+      <div class="row text-center">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="{% static 'images/Locations.png' %}" style="height:10em;">
+            <div class="card-body">
+              <h4 class="card-title">Find a location</h4>
+              <p class="card-text">Use the Google Maps interface and find a location you want to create an event at!
+              If a location you want isn't on the map, just submit a new one.</p>
+            </div>
+            <div class="card-footer">
+              <a href="/locations" class="btn btn-primary">View Locations &raquo;</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="{% static 'images/Activity.png' %}" alt="">
+            <div class="card-body">
+              <h4 class="card-title">Create an event</h4>
+              <p class="card-text">Once you now where you want to go, create an event.  Let other know what you're trying to do by giving you event a title and choose what you want to actaully play!</p>
+            </div>
+            <div class="card-footer">
+              <a href="/events" class="btn btn-primary">Create Event &raquo;</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+            <div class="card-body">
+              <h4 class="card-title">See who joins in</h4>
+              <p class="card-text">This app is about getting active but also about meeting new people.  Find the people going to you're event and start making friends.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Find Out More!</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+            <div class="card-body">
+              <h4 class="card-title">Card title</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Find Out More!</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      {% endif %}
+      <!-- /.row -->
+
+    </div>
+
+    {% if not user.is_authenticated %}
+    <div class="form-signin" style="border:solid;margin-bottom:2%;">
+          <form action="/login/" method="post">
+            {% csrf_token %}
+            <input type="username" name="username" autofocus class="form-control" placeholder="Username" required id="id_username" /><br>
+            <input type="password" name="password" required class="form-control" placeholder="Password" required id="id_password" />
+            <p style="text-align:center;"><a href="/register">Dont have an account?<br> Register here!</a></p>
+
+            <button class="btn btn-lg btn-primary btn-block">Login</button>
+          </form>
+          <br><p style="text-align:center;"><strong> -- OR -- </strong></p>
+          <a class="btn btn-lg btn-primary btn-block"href="{% url 'social:begin' 'google-oauth2' %}" style="color:white;">Login with <img src="{% static 'images/google-signin.png' %}" style="width:20%;height:20%;"></a>
+    </div>
+    {% endif %}
+
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; GAGP 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
 
 
 
