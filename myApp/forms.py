@@ -2,8 +2,9 @@ from django import forms
 from django.forms import Form, ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.admin.widgets import AdminTimeWidget
+
 import datetime
-from django.forms.widgets import SelectDateWidget
 from .models import *
 
 class RegistrationForm(UserCreationForm):
@@ -45,46 +46,67 @@ class RegistrationForm(UserCreationForm):
             self.cleaned_data['password1']
         )
 
-class EventForm(forms.Form):
-    event_name = forms.CharField(
-        required=True,
-        widget=forms.TextInput(attrs={
-        'class':'form-control',
-        'type':'text',
-        'placeholder':'Give your activity a title!'
-        })
-    )
-    event_location = forms.ModelChoiceField(
-        queryset = Location.objects.all(),
-        empty_label = 'Please choose location',
-        to_field_name = 'name',
-        widget = forms.Select(attrs={
-            'class':'form-signin'
-        })
-    )
-    event_date = forms.DateField(
-        widget = SelectDateWidget(
-            empty_label = ('Choose Year','Choose Month','Chose Day'),
-        ),
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
-    )
-    event_activity = forms.ChoiceField(
-        choices = EVENT_CHOICES,
-        widget = forms.Select(attrs={
-            'class':'form-signin',
-            'placeholder':'Choose a sport'
-        })
-    )
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
 
+class EventForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date_of_event'].widget.attrs.update({'class':'form-control'})
+        self.fields['time_of_event'].widget.attrs.update({'class':'form-control'})
 
+    class Meta:
+        model = Event
+        fields = ['name','location','activity','date_of_event', 'time_of_event']
+        widgets = {
+            'date_of_event': DateInput(),
+            'time_of_event': TimeInput(),
+            'name': forms.TextInput(attrs={
+                'class':'form-control'
+            }),
+            'location': forms.Select(attrs={
+                'class':'form-control'
+            }),
+            'activity': forms.Select(attrs={
+                'class':'form-control'
+            }),
+        }
 
+    def clean(self):
+        date = self.cleaned_data['date_of_event']
+        if date < datetime.date.today():
+            raise forms.ValidationError("Date of event cannot be in the past!")
 
-    # event_location = forms.ChoiceField(
+    # event_name = forms.CharField(
     #     required=True,
-    #     choices = ['1','2','3'],
-    #     label = 'Location'
+    #     widget=forms.TextInput(attrs={
+    #     'class':'form-control',
+    #     'type':'text',
+    #     'placeholder':'Give your activity a title!'
+    #     })
     # )
-
-    # def __init__(self, *args, **kwargs):
-    #     super(EventForm, self).__init__(*args, **kwargs)
-    #     self.fields['event_location'].choices = [(x[1]) for x in Location.objects.all().values_list()]
+    # event_location = forms.ModelChoiceField(
+    #     queryset = Location.objects.all(),
+    #     empty_label = 'Please choose location',
+    #     to_field_name = 'name',
+    #     widget = forms.Select(attrs={
+    #         'class':'form-signin'
+    #     })
+    # )
+    # event_date = forms.DateField(
+    #     widget = {
+    #         'event_date':forms.widget.DateInput(attrs={
+    #             'type':'date',
+    #         })
+    #     }
+    # )
+    # event_activity = forms.ChoiceField(
+    #     choices = EVENT_CHOICES,
+    #     widget = forms.Select(attrs={
+    #         'class':'form-signin',
+    #         'placeholder':'Choose a sport'
+    #     })
+    # )
