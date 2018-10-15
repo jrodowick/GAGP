@@ -15,3 +15,16 @@
  #locInfo a {
    font-size: 90%;
  } */
+body {
+   padding-top: 5%;;
+ }
+
+@media (min-width: 992px) {
+   body {
+     padding-top: 56px;
+   }
+}
+
+/* .card {
+   height: 100%;
+} */
