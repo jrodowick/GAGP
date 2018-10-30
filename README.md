@@ -1,1 +1,1 @@
-## A Django web app that connects local sports enthusiasts and athletes.
+### This project has been moved to the repo named SeniorProject
